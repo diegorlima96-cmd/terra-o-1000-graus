@@ -1,2 +1,2 @@
-# terra-o-1000-graus
+# terraco-1000-graus
 sorveteria
