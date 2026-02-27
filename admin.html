@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin | Terraço 1000 Graus</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Icons (Phosphor Icons) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="admin-logo">
+                <span class="logo-hot">TERRAÇO</span>
+                <span class="logo-cold">ADMIN</span>
+            </div>
+
+            <nav class="admin-nav">
+                <ul>
+                    <li class="active"><a href="#"><i class="ph ph-squares-four"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="ph ph-ice-cream"></i> Produtos</a></li>
+                    <li><a href="#"><i class="ph ph-shopping-cart"></i> Pedidos</a></li>
+                    <li><a href="#"><i class="ph ph-users"></i> Clientes</a></li>
+                    <li><a href="#"><i class="ph ph-chart-line-up"></i> Relatórios</a></li>
+                    <li><a href="#"><i class="ph ph-gear"></i> Configurações</a></li>
+                </ul>
+            </nav>
+
+            <div class="admin-user">
+                <div class="user-avatar"><i class="ph ph-user"></i></div>
+                <div class="user-info">
+                    <h4>Admin User</h4>
+                    <p>Gerente</p>
+                </div>
+                <a href="index.html" class="logout-btn" title="Sair"><i class="ph ph-sign-out"></i></a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Topbar -->
+            <header class="admin-topbar">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="ph ph-list"></i>
+                </button>
+
+                <div class="topbar-search">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" placeholder="Buscar pedidos, clientes...">
+                </div>
+
+                <div class="topbar-actions">
+                    <button class="action-btn"><i class="ph ph-bell"></i><span class="badge">3</span></button>
+                    <a href="index.html" class="btn btn-primary btn-sm" target="_blank">Ver Site</a>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="admin-content">
+                <div class="content-header">
+                    <h2>Dashboard</h2>
+                    <p>Resumo das atividades de hoje.</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon hot-glow"><i class="ph ph-currency-dollar"></i></div>
+                        <div class="stat-details">
+                            <h3>Vendas Hoje</h3>
+                            <p class="stat-value">R$ 2.450,00</p>
+                            <p class="stat-trend positive"><i class="ph ph-trend-up"></i> +15% desde ontem</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon cold-glow"><i class="ph ph-shopping-bag"></i></div>
+                        <div class="stat-details">
+                            <h3>Pedidos Novos</h3>
+                            <p class="stat-value">34</p>
+                            <p class="stat-trend positive"><i class="ph ph-trend-up"></i> +5% desde ontem</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon gold-glow"><i class="ph ph-users-three"></i></div>
+                        <div class="stat-details">
+                            <h3>Novos Clientes</h3>
+                            <p class="stat-value">12</p>
+                            <p class="stat-trend negative"><i class="ph ph-trend-down"></i> -2% desde ontem</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders Table -->
+                <div class="recent-orders">
+                    <div class="section-title-row">
+                        <h3>Pedidos Recentes</h3>
+                        <button class="btn btn-secondary btn-sm">Ver Todos</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID Pedido</th>
+                                    <th>Cliente</th>
+                                    <th>Itens</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#10045</td>
+                                    <td>João Silva</td>
+                                    <td>2x Vulcão de Cacau</td>
+                                    <td>R$ 70,00</td>
+                                    <td><span class="status-badge status-pending">Pendente</span></td>
+                                    <td><button class="btn-icon"><i class="ph ph-eye"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td>#10044</td>
+                                    <td>Maria Oliveira</td>
+                                    <td>1x Nevasca Siberiana, 1x Água</td>
+                                    <td>R$ 42,00</td>
+                                    <td><span class="status-badge status-processing">Preparando</span></td>
+                                    <td><button class="btn-icon"><i class="ph ph-eye"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td>#10043</td>
+                                    <td>Carlos Mendes</td>
+                                    <td>3x Aurora Boreal</td>
+                                    <td>R$ 105,00</td>
+                                    <td><span class="status-badge status-completed">Concluído</span></td>
+                                    <td><button class="btn-icon"><i class="ph ph-eye"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td>#10042</td>
+                                    <td>Ana Costa</td>
+                                    <td>1x Vulcão de Cacau</td>
+                                    <td>R$ 35,00</td>
+                                    <td><span class="status-badge status-completed">Concluído</span></td>
+                                    <td><button class="btn-icon"><i class="ph ph-eye"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+
+</html>
