@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin | Terraço 1000 Graus</title>
+
+    <!-- SEO & URL -->
+    <link rel="canonical" href="https://www.terraco1000graus.com.br/admin">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Forçar HTTPS -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Icons (Phosphor Icons) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="admin-logo">
+                <a href="../index.html" style="text-decoration: none;">
+                    <span class="logo-hot">TERRAÇO</span>
+                    <span class="logo-cold">ADMIN</span>
+                </a>
+            </div>
+
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="index.html"><i class="ph ph-squares-four"></i> Dashboard</a></li>
+                    <li><a href="produtos.html"><i class="ph ph-ice-cream"></i> Produtos</a></li>
+                    <li><a href="pedidos.html"><i class="ph ph-shopping-cart"></i> Pedidos</a></li>
+                    <li><a href="clientes.html"><i class="ph ph-users"></i> Clientes</a></li>
+                    <li><a href="relatorios.html"><i class="ph ph-chart-line-up"></i> Relatórios</a></li>
+                    <li class="active"><a href="configuracoes.html"><i class="ph ph-gear"></i> Configurações</a></li>
+                </ul>
+            </nav>
+
+            <div class="admin-user">
+                <div class="user-avatar"><i class="ph ph-user"></i></div>
+                <div class="user-info">
+                    <h4>Admin User</h4>
+                    <p>Gerente</p>
+                </div>
+                <a href="login.html" class="logout-btn" title="Sair do Admin" id="logoutBtn"><i
+                        class="ph ph-sign-out"></i></a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Topbar -->
+            <header class="admin-topbar">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="ph ph-list"></i>
+                </button>
+
+                <div class="topbar-search">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" placeholder="Buscar pedidos, clientes...">
+                </div>
+
+                <div class="topbar-actions">
+                    <button class="action-btn"><i class="ph ph-bell"></i><span class="badge">3</span></button>
+                    <a href="../index.html" class="btn btn-primary btn-sm" target="_blank">Ver Site</a>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="admin-content">
+                <div class="content-header">
+                    <h2>Configurações</h2>
+                    <p>Ajustes do sistema e da loja.</p>
+                </div>
+                
+                <div style="padding: 4rem; text-align: center; color: var(--text-secondary); background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1); margin-top:2rem;">
+                    <i class="ph ph-gear" style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                    <h3>Módulo de Configuração</h3>
+                    <p>Funcionalidade em desenvolvimento e estará disponível na próxima atualização.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+
+</html>
