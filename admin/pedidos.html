@@ -79,18 +79,124 @@
             </header>
 
             <!-- Dashboard Content -->
+            <!-- Pedidos Content -->
             <div class="admin-content">
                 <div class="content-header">
-                    <h2>Todos os Pedidos</h2>
-                    <p>Lista completa e histórico de processamento.</p>
+                    <h2>Gestão de Pedidos</h2>
+                    <p>Registre novos pedidos ou acompanhe os existentes.</p>
                 </div>
-                
-                <div style="padding: 4rem; text-align: center; color: var(--text-secondary); background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1); margin-top:2rem;">
-                    <i class="ph ph-shopping-cart" style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                    <h3>Módulo de Pedidos</h3>
-                    <p>Funcionalidade em desenvolvimento e estará disponível na próxima atualização.</p>
+
+                <!-- Novo Pedido Manual -->
+                <div class="settings-card"
+                    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 2rem; border-radius: 12px; margin-top: 2rem; margin-bottom: 3rem;">
+                    <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;"><i
+                            class="ph ph-shopping-cart-simple"></i> Novo Pedido Manual</h3>
+                    <form id="orderForm">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <div class="form-group">
+                                <label style="display: block; margin-bottom: 0.4rem; font-size: 0.9rem;">Cliente</label>
+                                <input type="text" id="orderClient" class="form-control"
+                                    style="width: 100%; padding: 0.7rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white;"
+                                    placeholder="Nome do cliente" required>
+                            </div>
+                            <div class="form-group">
+                                <label
+                                    style="display: block; margin-bottom: 0.4rem; font-size: 0.9rem;">Produto/Itens</label>
+                                <input type="text" id="orderItems" class="form-control"
+                                    style="width: 100%; padding: 0.7rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white;"
+                                    placeholder="Ex: 2x Chocolate" required>
+                            </div>
+                            <div class="form-group">
+                                <label style="display: block; margin-bottom: 0.4rem; font-size: 0.9rem;">Total
+                                    (R$)</label>
+                                <input type="number" step="0.01" id="orderTotal" class="form-control"
+                                    style="width: 100%; padding: 0.7rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white;"
+                                    placeholder="0.00" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="padding: 0.7rem 1.5rem;">Registrar
+                            Pedido</button>
+                    </form>
+                </div>
+
+                <!-- Recent Orders Table -->
+                <div class="recent-orders">
+                    <h3 style="margin-bottom: 1.5rem;">Histórico de Pedidos</h3>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Itens</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orderListBody">
+                                <!-- Preenchido via JS -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const form = document.getElementById('orderForm');
+                    const listBody = document.getElementById('orderListBody');
+
+                    const loadOrders = () => {
+                        const orders = JSON.parse(localStorage.getItem('siteOrders') || '[]');
+                        listBody.innerHTML = '';
+
+                        orders.reverse().forEach((o, index) => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td>#${o.id}</td>
+                                <td>${o.client}</td>
+                                <td>${o.items}</td>
+                                <td>R$ ${parseFloat(o.total).toFixed(2)}</td>
+                                <td><span class="status-badge status-${o.status.toLowerCase()}">${o.status}</span></td>
+                                <td>
+                                    <button class="btn-icon" onclick="deleteOrder(${index})"><i class="ph ph-trash"></i></button>
+                                </td>
+                            `;
+                            listBody.appendChild(tr);
+                        });
+                    };
+
+                    form.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        const orders = JSON.parse(localStorage.getItem('siteOrders') || '[]');
+
+                        const newOrder = {
+                            id: Math.floor(Math.random() * 90000) + 10000,
+                            client: document.getElementById('orderClient').value,
+                            items: document.getElementById('orderItems').value,
+                            total: document.getElementById('orderTotal').value,
+                            status: 'Pendente',
+                            date: new Date().toISOString()
+                        };
+
+                        orders.push(newOrder);
+                        localStorage.setItem('siteOrders', JSON.stringify(orders));
+                        form.reset();
+                        loadOrders();
+                    });
+
+                    window.deleteOrder = (index) => {
+                        const orders = JSON.parse(localStorage.getItem('siteOrders') || '[]');
+                        const realIndex = orders.length - 1 - index;
+                        orders.splice(realIndex, 1);
+                        localStorage.setItem('siteOrders', JSON.stringify(orders));
+                        loadOrders();
+                    };
+
+                    loadOrders();
+                });
+            </script>
         </main>
     </div>
 

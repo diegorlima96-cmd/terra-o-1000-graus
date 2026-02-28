@@ -42,6 +42,7 @@
                     <li><a href="index.html"><i class="ph ph-squares-four"></i> Dashboard</a></li>
                     <li class="active"><a href="produtos.html"><i class="ph ph-ice-cream"></i> Produtos</a></li>
                     <li><a href="pedidos.html"><i class="ph ph-shopping-cart"></i> Pedidos</a></li>
+                    <li><a href="posts.html"><i class="ph ph-article"></i> Posts</a></li>
                     <li><a href="clientes.html"><i class="ph ph-users"></i> Clientes</a></li>
                     <li><a href="relatorios.html"><i class="ph ph-chart-line-up"></i> Relatórios</a></li>
                     <li><a href="configuracoes.html"><i class="ph ph-gear"></i> Configurações</a></li>
@@ -78,19 +79,125 @@
                 </div>
             </header>
 
-            <!-- Dashboard Content -->
+            <!-- Produtos Content -->
             <div class="admin-content">
                 <div class="content-header">
-                    <h2>Produtos</h2>
-                    <p>Gerenciamento do catálogo de sorvetes e estoques.</p>
+                    <h2>Gerenciar Produtos</h2>
+                    <p>Adicione, remova ou edite os sorvetes do cardápio oficial.</p>
                 </div>
-                
-                <div style="padding: 4rem; text-align: center; color: var(--text-secondary); background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1); margin-top:2rem;">
-                    <i class="ph ph-package" style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                    <h3>Módulo de Produtos</h3>
-                    <p>Funcionalidade em desenvolvimento e estará disponível na próxima atualização.</p>
+
+                <!-- Formulário de Cadastro -->
+                <div class="settings-card"
+                    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 2rem; border-radius: 12px; margin-top: 2rem; margin-bottom: 3rem;">
+                    <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;"><i
+                            class="ph ph-plus-circle"></i> Novo Produto</h3>
+                    <form id="productForm">
+                        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="form-group">
+                                <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Nome
+                                    do Sorvete</label>
+                                <input type="text" id="prodName" class="form-control"
+                                    style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white;"
+                                    placeholder="Ex: Vulcão de Chocolate" required>
+                            </div>
+                            <div class="form-group">
+                                <label
+                                    style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Preço
+                                    (R$)</label>
+                                <input type="number" step="0.01" id="prodPrice" class="form-control"
+                                    style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white;"
+                                    placeholder="25.00" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label
+                                style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Descrição
+                                do Sabor/Ingredientes</label>
+                            <textarea id="prodDesc" class="form-control"
+                                style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white; min-height: 80px;"
+                                placeholder="Descreva os detalhes do sorvete..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="padding: 0.8rem 2rem;">Cadastrar
+                            Produto</button>
+                    </form>
+                </div>
+
+                <!-- Listagem de Produtos -->
+                <div class="recent-orders">
+                    <h3 style="margin-bottom: 1.5rem;">Produtos Cadastrados</h3>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Preço</th>
+                                    <th>Descrição</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productListBody">
+                                <!-- Preenchido via JS -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const form = document.getElementById('productForm');
+                    const listBody = document.getElementById('productListBody');
+
+                    const loadProducts = () => {
+                        const products = JSON.parse(localStorage.getItem('siteProducts') || '[]');
+                        listBody.innerHTML = '';
+
+                        products.forEach((p, index) => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td><strong>${p.name}</strong></td>
+                                <td>R$ ${parseFloat(p.price).toFixed(2)}</td>
+                                <td style="max-width: 300px; font-size: 0.85rem; opacity: 0.7;">${p.desc}</td>
+                                <td>
+                                    <button class="btn-icon" style="color: var(--hot-red);" onclick="deleteProduct(${index})">
+                                        <i class="ph ph-trash"></i>
+                                    </button>
+                                </td>
+                            `;
+                            listBody.appendChild(tr);
+                        });
+                    };
+
+                    form.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        const products = JSON.parse(localStorage.getItem('siteProducts') || '[]');
+
+                        const newProd = {
+                            name: document.getElementById('prodName').value,
+                            price: document.getElementById('prodPrice').value,
+                            desc: document.getElementById('prodDesc').value
+                        };
+
+                        products.push(newProd);
+                        localStorage.setItem('siteProducts', JSON.stringify(products));
+                        form.reset();
+                        loadProducts();
+                    });
+
+                    window.deleteProduct = (index) => {
+                        if (confirm('Tem certeza que deseja remover este produto?')) {
+                            const products = JSON.parse(localStorage.getItem('siteProducts') || '[]');
+                            products.splice(index, 1);
+                            localStorage.setItem('siteProducts', JSON.stringify(products));
+                            loadProducts();
+                        }
+                    };
+
+                    loadProducts();
+                });
+            </script>
         </main>
     </div>
 
