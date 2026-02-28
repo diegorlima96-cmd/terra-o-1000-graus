@@ -78,19 +78,98 @@
                 </div>
             </header>
 
-            <!-- Dashboard Content -->
+            <!-- Settings Content -->
             <div class="admin-content">
                 <div class="content-header">
-                    <h2>Configurações</h2>
-                    <p>Ajustes do sistema e da loja.</p>
+                    <h2>Configurações do Site</h2>
+                    <p>Ajuste as informações principais da sua sorveteria que aparecem no site.</p>
                 </div>
-                
-                <div style="padding: 4rem; text-align: center; color: var(--text-secondary); background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1); margin-top:2rem;">
-                    <i class="ph ph-gear" style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                    <h3>Módulo de Configuração</h3>
-                    <p>Funcionalidade em desenvolvimento e estará disponível na próxima atualização.</p>
+
+                <div class="settings-card"
+                    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 2rem; border-radius: 12px; margin-top: 2rem; max-width: 800px;">
+                    <form id="settingsForm">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="form-group">
+                                <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Nome
+                                    da Sorveteria</label>
+                                <input type="text" id="storeName" class="form-control"
+                                    style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white;"
+                                    placeholder="Terraço 1000 Graus">
+                            </div>
+                            <div class="form-group">
+                                <label
+                                    style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">WhatsApp
+                                    (apenas números)</label>
+                                <input type="text" id="storeWhatapp" class="form-control"
+                                    style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white;"
+                                    placeholder="13991838645">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Endereço
+                                / Bairro</label>
+                            <input type="text" id="storeAddress" class="form-control"
+                                style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white;"
+                                placeholder="Morrinhos, Guarujá - SP">
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 2rem;">
+                            <label
+                                style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Descrição
+                                (Hero)</label>
+                            <textarea id="storeDesc" class="form-control"
+                                style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white; min-height: 100px;"
+                                placeholder="Descreva sua sorveteria aqui..."></textarea>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem;">
+                            <button type="submit" class="btn btn-primary" style="padding: 0.8rem 2rem;">Salvar
+                                Alterações</button>
+                            <p id="saveMsg"
+                                style="color: #25D366; display: none; align-items: center; gap: 0.5rem; margin: 0; font-weight: 500;">
+                                <i class="ph ph-check-circle"></i> Configurações salvas!</p>
+                        </div>
+                    </form>
                 </div>
             </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const form = document.getElementById('settingsForm');
+                    const saveMsg = document.getElementById('saveMsg');
+
+                    // Carregar dados salvos
+                    const savedData = JSON.parse(localStorage.getItem('siteSettings') || '{}');
+
+                    if (savedData.name) document.getElementById('storeName').value = savedData.name;
+                    if (savedData.whatsapp) document.getElementById('storeWhatapp').value = savedData.whatsapp;
+                    if (savedData.address) document.getElementById('storeAddress').value = savedData.address;
+                    if (savedData.desc) document.getElementById('storeDesc').value = savedData.desc;
+
+                    form.addEventListener('submit', (e) => {
+                        e.preventDefault();
+
+                        const settings = {
+                            name: document.getElementById('storeName').value,
+                            whatsapp: document.getElementById('storeWhatapp').value,
+                            address: document.getElementById('storeAddress').value,
+                            desc: document.getElementById('storeDesc').value
+                        };
+
+                        localStorage.setItem('siteSettings', JSON.stringify(settings));
+
+                        saveMsg.style.display = 'flex';
+                        setTimeout(() => {
+                            saveMsg.style.opacity = '0';
+                            setTimeout(() => {
+                                saveMsg.style.display = 'none';
+                                saveMsg.style.opacity = '1';
+                            }, 500);
+                        }, 2000);
+                    });
+                });
+            </script>
         </main>
     </div>
 

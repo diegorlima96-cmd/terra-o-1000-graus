@@ -87,4 +87,67 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(header);
     });
 
+    // --- CARREGAR CONFIGURAÇÕES DO ADMIN (DINÂMICO) ---
+    const loadSettings = () => {
+        const savedData = JSON.parse(localStorage.getItem('siteSettings') || '{}');
+        if (!savedData.name && !savedData.whatsapp) return; // Nada salvo ainda
+
+        // Atualizar Nome/Logo
+        if (savedData.name) {
+            const logos = document.querySelectorAll('.logo');
+            logos.forEach(logo => {
+                const parts = savedData.name.split(' ');
+                if (parts.length > 1) {
+                    logo.innerHTML = `<span class="logo-hot">${parts[0]}</span>&nbsp;<span class="logo-cold">${parts.slice(1).join(' ')}</span>`;
+                } else {
+                    logo.innerHTML = `<span class="logo-hot">${savedData.name}</span>`;
+                }
+            });
+        }
+
+        // Atualizar Descrição Hero
+        if (savedData.desc) {
+            const heroSub = document.querySelector('.hero-subtitle');
+            if (heroSub) heroSub.textContent = savedData.desc;
+        }
+
+        // Atualizar WhatsApp e Links
+        if (savedData.whatsapp) {
+            const waLinks = document.querySelectorAll('a[href*="wa.me"]');
+            waLinks.forEach(link => {
+                link.href = `https://wa.me/55${savedData.whatsapp.replace(/\D/g, '')}`;
+            });
+
+            // Texto no footer
+            const footerWa = document.querySelector('.footer-contact i.ph-whatsapp-logo + a');
+            if (footerWa) {
+                // Formatar número simples (XX) XXXXX-XXXX
+                const n = savedData.whatsapp.replace(/\D/g, '');
+                if (n.length >= 11) {
+                    footerWa.textContent = `(${n.substring(0, 2)}) ${n.substring(2, 7)}-${n.substring(7)}`;
+                } else {
+                    footerWa.textContent = savedData.whatsapp;
+                }
+            }
+        }
+
+        // Atualizar Endereço
+        if (savedData.address) {
+            const footerAddr = document.querySelector('.footer-contact i.ph-map-pin + p');
+            // Nota: o seletor acima pode precisar de ajuste dependendo do HTML
+            const contactPs = document.querySelectorAll('.footer-contact p');
+            contactPs.forEach(p => {
+                if (p.querySelector('.ph-map-pin')) {
+                    p.innerHTML = `<i class="ph ph-map-pin"></i> ${savedData.address}`;
+                }
+            });
+
+            // Seção institucional
+            const instSubtitle = document.querySelector('#institucional .section-subtitle strong');
+            if (instSubtitle) instSubtitle.textContent = savedData.address;
+        }
+    };
+
+    loadSettings();
+
 });
