@@ -186,7 +186,7 @@
             // Para ambiente de testes: usuário admin e senha admin123
             if (user === 'admin' && pass === 'admin123') {
                 localStorage.setItem('adminAuth', 'true');
-                window.location.href = 'index.html';
+                window.location.replace('index.html');
             } else {
                 errorMsg.style.display = 'block';
                 // Shake effect on error
@@ -209,7 +209,7 @@
 
         // Se já estiver logado, redicionador para o painel
         if (localStorage.getItem('adminAuth') === 'true') {
-            window.location.href = 'index.html';
+            window.location.replace('index.html');
         }
     </script>
 </body>

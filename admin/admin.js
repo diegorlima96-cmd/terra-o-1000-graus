@@ -3,7 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- PROTEÇÃO DE ROTA (SIMULAÇÃO) ---
     // Verifica se o admin logou. Se não, expulsa para o login.
     if (localStorage.getItem('adminAuth') !== 'true') {
-        window.location.href = 'login.html';
+        const path = window.location.pathname;
+        if (!path.endsWith('login.html')) {
+            window.location.replace('login.html');
+        }
         return; // Para execução do resto do script
     }
 
@@ -13,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.removeItem('adminAuth'); // Remove autenticação
-            window.location.href = 'login.html'; // Redireciona
+            window.location.replace('login.html'); // Redireciona
         });
     }
 
