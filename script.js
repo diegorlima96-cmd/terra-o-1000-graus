@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
             card.innerHTML = `
                 <div class="flavor-img-wrapper">
                     <div class="glow-bg ${index % 3 === 0 ? 'hot' : (index % 3 === 1 ? 'cold' : 'mixed')}"></div>
-                    <i class="ph ph-ice-cream" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 6rem; opacity: 0.1; z-index: 2;"></i>
+                    ${p.image ? `<img src="${p.image}" style="position: absolute; width: 100%; height: 100%; object-fit: cover; border-radius: 20px; z-index: 2;">` : `<i class="ph ph-ice-cream" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 6rem; opacity: 0.1; z-index: 2;"></i>`}
                 </div>
                 <div class="flavor-info">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
@@ -232,6 +232,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // --- RENDERIZAR POSTS ---
+    const renderPosts = () => {
+        const postsSection = document.getElementById('novidades');
+        const container = document.getElementById('sitePostsContainer');
+        if (!container || !postsSection) return;
+
+        const posts = JSON.parse(localStorage.getItem('sitePosts') || '[]');
+        if (posts.length === 0) {
+            postsSection.style.display = 'none';
+            return;
+        }
+
+        postsSection.style.display = 'block';
+        container.innerHTML = '';
+
+        posts.slice().reverse().forEach(p => {
+            const article = document.createElement('article');
+            article.className = 'feature-card';
+            article.style.textAlign = 'left';
+            article.style.padding = '0';
+            article.style.overflow = 'hidden';
+
+            article.innerHTML = `
+                ${p.image ? `<img src="${p.image}" style="width: 100%; height: 200px; object-fit: cover;">` : `<div style="width: 100%; height: 200px; background: var(--bg-lighter); display: flex; align-items: center; justify-content: center;"><i class="ph ph-article" style="font-size: 4rem; opacity: 0.1;"></i></div>`}
+                <div style="padding: 2rem;">
+                    <small style="color: var(--hot-primary); font-weight: 700;">${new Date(p.date).toLocaleDateString()}</small>
+                    <h3 style="margin: 0.5rem 0 1rem; font-size: 1.5rem;">${p.title}</h3>
+                    <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6;">${p.content}</p>
+                </div>
+            `;
+
+            container.appendChild(article);
+        });
+    };
+
     renderProducts();
     renderToppings();
+    renderPosts();
 });
