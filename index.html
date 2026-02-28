@@ -22,12 +22,11 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
-
     <!-- Icons (Phosphor Icons) -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/wp.css">
 </head>
 
 <body>
@@ -39,10 +38,10 @@
         </div>
         <nav class="nav">
             <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#sabores">Sabores Extremos</a></li>
-                <li><a href="#sobre">Nossa Essência</a></li>
-                <li><a href="#contato">Visite-nos</a></li>
+                <li><a href="#home">Início</a></li>
+                <li><a href="#institucional">Institucional</a></li>
+                <li><a href="#sabores">Produtos</a></li>
+                <li><a href="#contato">Fale Conosco</a></li>
             </ul>
         </nav>
         <button class="btn btn-primary">Pedir Agora</button>
@@ -57,11 +56,13 @@
         <div class="hero-content">
             <div class="hero-badge">A revolução do gelado</div>
             <h1 class="hero-title">Onde o <span>Fogo</span> encontra o <span>Gelo</span></h1>
-            <p class="hero-subtitle">Sorvetes premium feitos à mão. Uma explosão de temperatura e sabor que desafia os
-                seus sentidos no Terraço 1000 Graus.</p>
+            <p class="hero-subtitle">Descubra a Sorveteria Terraço 1000 Graus, localizada na cidade de <strong>Guarujá,
+                    SP (Bairro Morrinhos)</strong>. Uma explosão de temperatura e sabor artesanal que desafia seus
+                sentidos com um verdadeiro contraste de fogo e gelo.</p>
             <div class="hero-actions">
-                <a href="#sabores" class="btn btn-primary btn-glow">Descobrir Sabores</a>
-                <a href="#sobre" class="btn btn-secondary">Nossa História</a>
+                <a href="#sabores" class="btn btn-primary btn-glow">Ver Produtos</a>
+                <a href="https://wa.me/5513991838645" target="_blank" rel="noopener noreferrer"
+                    class="btn btn-secondary"><i class="ph ph-whatsapp-logo"></i> Chamar no Zap</a>
             </div>
         </div>
         <div class="hero-image-container">
@@ -94,6 +95,62 @@
                 </div>
                 <h3>Ingredientes Premium</h3>
                 <p>Selecionamos os ingredientes mais raros do mundo para sabores incomparáveis.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Institucional Section -->
+    <section class="about" id="institucional"
+        style="padding: 100px 0; background: var(--bg-secondary); position: relative; overflow: hidden;">
+        <!-- Decorações de Fundo -->
+        <div class="blob-hot"
+            style="position: absolute; width: 300px; height: 300px; border-radius: 50%; background: var(--blood-orange); filter: blur(100px); opacity: 0.1; top: -50px; left: -100px;">
+        </div>
+
+        <div class="container" style="display: flex; flex-wrap: wrap; align-items: center; gap: 4rem;">
+            <div style="flex: 1; min-width: 300px;">
+                <div class="section-header" style="opacity: 1; transform: none; margin-bottom: 2rem;">
+                    <h2 class="section-title">O Coração da <span>Terraço</span></h2>
+                    <p class="section-subtitle"
+                        style="max-width: 100%; text-align: left; font-size: 1.2rem; color: var(--text-secondary);">
+                        Nascemos no coração da cidade de <strong>Guarujá, SP</strong>, no bairro
+                        <strong>Morrinhos</strong>.
+                    </p>
+                </div>
+
+                <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.05rem;">
+                    A Terraço 1000 Graus não é apenas uma sorveteria, é um laboratório de sensações extremas.
+                    Desenvolvemos uma técnica exclusiva onde o sorvete gelado artesanal colide com caldas borbulhantes
+                    em altíssima temperatura, criando um paraíso térmico na sua boca.
+                </p>
+                <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 2rem; font-size: 1.05rem;">
+                    Nossa missão é trazer uma experiência gastronômica "instagramável" e inesquecível para o litoral
+                    paulista. Cada ingrediente é selecionado a dedo para que do primeiro ao último mergulho da colher,
+                    você sinta a magia dos 1000 Graus.
+                </p>
+
+                <a href="https://wa.me/5513991838645" target="_blank" rel="noopener noreferrer"
+                    class="btn btn-primary btn-glow"
+                    style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                    <i class="ph ph-whatsapp-logo" style="font-size: 1.5rem;"></i> Faça seu pedido
+                </a>
+            </div>
+
+            <!-- Foto / Ilustração da loja -->
+            <div style="flex: 1; min-width: 300px; position: relative;">
+                <div
+                    style="aspect-ratio: 4/3; background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
+                    <i class="ph ph-storefront"
+                        style="font-size: 6rem; color: rgba(255,255,255,0.1); position: absolute;"></i>
+                    <div style="z-index: 2; text-align: center;">
+                        <span class="logo-hot"
+                            style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;">TERRAÇO</span>
+                        <span class="logo-cold" style="font-size: 2rem; font-weight: 900; letter-spacing: -1px;">1000
+                            GRAUS</span>
+                        <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">📍 Guarujá • SP
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -176,16 +233,17 @@
                 <h4>Navegação</h4>
                 <ul>
                     <li><a href="#home">Início</a></li>
-                    <li><a href="#sabores">Cardápio</a></li>
-                    <li><a href="#sobre">Nossa História</a></li>
+                    <li><a href="#institucional">Institucional</a></li>
+                    <li><a href="#sabores">Produtos</a></li>
                     <li><a href="https://www.terraco1000graus.com.br/trabalhe-conosco">Trabalhe Conosco</a></li>
                 </ul>
             </div>
 
             <div class="footer-contact">
-                <h4>Contato</h4>
-                <p><i class="ph ph-map-pin"></i> Avenida Extrema, 1000 - Cobertura</p>
-                <p><i class="ph ph-phone"></i> (11) 90000-1000</p>
+                <h4>Fale Conosco</h4>
+                <p><i class="ph ph-map-pin"></i> Bairro Morrinhos, Guarujá - SP</p>
+                <p><i class="ph ph-whatsapp-logo"></i> <a href="https://wa.me/5513991838645" target="_blank"
+                        style="color: inherit; text-decoration: none;">(13) 99183-8645</a></p>
                 <p><i class="ph ph-envelope-simple"></i> contato@terraco1000graus.com.br</p>
             </div>
         </div>
@@ -193,6 +251,12 @@
             <p>&copy; 2026 Terraço 1000 Graus. Todos os direitos reservados.</p>
         </div>
     </footer>
+
+    <!-- Flutuante Whatsapp -->
+    <a href="https://wa.me/5513991838645" target="_blank" rel="noopener noreferrer" class="whatsapp-btn"
+        title="Fale com a gente pelo WhatsApp">
+        <i class="ph ph-whatsapp-logo"></i>
+    </a>
 
     <script src="script.js"></script>
 </body>
