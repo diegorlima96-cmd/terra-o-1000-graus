@@ -150,4 +150,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadSettings();
 
+    // --- RENDERIZAR PRODUTOS DINÂMICOS ---
+    const renderProducts = () => {
+        const productGrid = document.querySelector('.flavor-grid');
+        if (!productGrid) return;
+
+        const products = JSON.parse(localStorage.getItem('siteProducts') || '[]');
+        if (products.length === 0) return; // Se não houver produtos no admin, mantém os estáticos do HTML
+
+        productGrid.innerHTML = ''; // Limpa os estáticos
+
+        products.forEach((p, index) => {
+            const card = document.createElement('div');
+            card.className = 'flavor-card';
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = `all 0.6s cubic-bezier(0.25, 1, 0.5, 1) ${index * 0.1}s`;
+
+            card.innerHTML = `
+                <div class="flavor-image">
+                    <i class="ph ph-ice-cream" style="font-size: 5rem; color: rgba(255,255,255,0.1);"></i>
+                    <div class="flavor-overlay">
+                        <button class="btn btn-primary btn-sm">Adicionar</button>
+                    </div>
+                </div>
+                <div class="flavor-info">
+                    <div class="flavor-header">
+                        <h3 class="flavor-name">${p.name}</h3>
+                        <span class="flavor-price">R$ ${parseFloat(p.price).toFixed(2)}</span>
+                    </div>
+                    <p class="flavor-desc">${p.desc}</p>
+                    <div class="flavor-tags">
+                        <span class="tag">Artesanal</span>
+                        <span class="tag">Premium</span>
+                    </div>
+                </div>
+            `;
+
+            productGrid.appendChild(card);
+            observer.observe(card);
+        });
+    };
+
+    renderProducts();
+
 });

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin | Terraço 1000 Graus</title>
+
+    <!-- SEO & URL -->
+    <link rel="canonical" href="https://www.terraco1000graus.com.br/admin">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Forçar HTTPS -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Icons (Phosphor Icons) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="admin-logo">
+                <a href="../index.html" style="text-decoration: none;">
+                    <span class="logo-hot">TERRAÇO</span>
+                    <span class="logo-cold">ADMIN</span>
+                </a>
+            </div>
+
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="index.html"><i class="ph ph-squares-four"></i> Dashboard</a></li>
+                    <li><a href="produtos.html"><i class="ph ph-ice-cream"></i> Produtos</a></li>
+                    <li><a href="pedidos.html"><i class="ph ph-shopping-cart"></i> Pedidos</a></li>
+                    <li class="active"><a href="posts.html"><i class="ph ph-article"></i> Posts</a></li>
+                    <li><a href="clientes.html"><i class="ph ph-users"></i> Clientes</a></li>
+                    <li><a href="relatorios.html"><i class="ph ph-chart-line-up"></i> Relatórios</a></li>
+                    <li><a href="configuracoes.html"><i class="ph ph-gear"></i> Configurações</a></li>
+                </ul>
+            </nav>
+
+            <div class="admin-user">
+                <div class="user-avatar"><i class="ph ph-user"></i></div>
+                <div class="user-info">
+                    <h4>Admin User</h4>
+                    <p>Gerente</p>
+                </div>
+                <a href="login.html" class="logout-btn" title="Sair do Admin" id="logoutBtn"><i
+                        class="ph ph-sign-out"></i></a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Topbar -->
+            <header class="admin-topbar">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="ph ph-list"></i>
+                </button>
+
+                <div class="topbar-search">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" placeholder="Buscar pedidos, clientes...">
+                </div>
+
+                <div class="topbar-actions">
+                    <button class="action-btn"><i class="ph ph-bell"></i><span class="badge">3</span></button>
+                    <a href="../index.html" class="btn btn-primary btn-sm" target="_blank">Ver Site</a>
+                </div>
+            </header>
+
+            <!-- Posts Content -->
+            <div class="admin-content">
+                <div class="content-header">
+                    <h2>Gestão de Posts/Novidades</h2>
+                    <p>Escreva avisos, promoções ou novidades para seus clientes.</p>
+                </div>
+
+                <!-- Novo Post -->
+                <div class="settings-card"
+                    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 2rem; border-radius: 12px; margin-top: 2rem; margin-bottom: 3rem;">
+                    <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;"><i
+                            class="ph ph-pencil-line"></i> Criar Nova Postagem</h3>
+                    <form id="postForm">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.4rem; font-size: 0.9rem;">Título da
+                                Novidade</label>
+                            <input type="text" id="postTitle" class="form-control"
+                                style="width: 100%; padding: 0.7rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white;"
+                                placeholder="Ex: Inauguração em novo horário!" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.4rem; font-size: 0.9rem;">Conteúdo /
+                                Texto</label>
+                            <textarea id="postContent" class="form-control"
+                                style="width: 100%; padding: 0.7rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white; min-height: 120px;"
+                                placeholder="Escreva os detalhes aqui..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="padding: 0.7rem 1.5rem;">Publicar
+                            Novidade</button>
+                    </form>
+                </div>
+
+                <!-- Posts List -->
+                <div class="recent-orders">
+                    <h3 style="margin-bottom: 1.5rem;">Posts Publicados</h3>
+                    <div id="postsContainer" style="display: grid; gap: 1rem;">
+                        <!-- Preenchido via JS -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('postForm');
+            const container = document.getElementById('postsContainer');
+
+            const loadPosts = () => {
+                const posts = JSON.parse(localStorage.getItem('sitePosts') || '[]');
+                container.innerHTML = '';
+
+                if (posts.length === 0) {
+                    container.innerHTML = '<p style="opacity: 0.5; text-align: center; padding: 2rem;">Nenhuma postagem ainda.</p>';
+                    return;
+                }
+
+                posts.reverse().forEach((p, index) => {
+                    const div = document.createElement('div');
+                    div.style.background = 'rgba(255,255,255,0.02)';
+                    div.style.border = '1px solid rgba(255,255,255,0.05)';
+                    div.style.padding = '1.5rem';
+                    div.style.borderRadius = '8px';
+                    div.style.display = 'flex';
+                    div.style.justifyContent = 'space-between';
+                    div.style.alignItems = 'flex-start';
+
+                    div.innerHTML = `
+                        <div>
+                            <h4 style="margin-bottom: 0.5rem; color: var(--hot-red);">${p.title}</h4>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4;">${p.content}</p>
+                            <small style="opacity: 0.3; display: block; margin-top: 0.5rem;">${new Date(p.date).toLocaleDateString()}</small>
+                        </div>
+                        <button class="btn-icon" style="color: var(--hot-red);" onclick="deletePost(${index})">
+                            <i class="ph ph-trash"></i>
+                        </button>
+                    `;
+                    container.appendChild(div);
+                });
+            };
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const posts = JSON.parse(localStorage.getItem('sitePosts') || '[]');
+
+                const newPost = {
+                    title: document.getElementById('postTitle').value,
+                    content: document.getElementById('postContent').value,
+                    date: new Date().toISOString()
+                };
+
+                posts.push(newPost);
+                localStorage.setItem('sitePosts', JSON.stringify(posts));
+                form.reset();
+                loadPosts();
+            });
+
+            window.deletePost = (index) => {
+                const posts = JSON.parse(localStorage.getItem('sitePosts') || '[]');
+                const realIndex = posts.length - 1 - index;
+                posts.splice(realIndex, 1);
+                localStorage.setItem('sitePosts', JSON.stringify(posts));
+                loadPosts();
+            };
+
+            loadPosts();
+        });
+    </script>
+</body>
+
+</html>
