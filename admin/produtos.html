@@ -143,6 +143,29 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- Acompanhamentos de Açai -->
+                <div class="settings-card"
+                    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 2rem; border-radius: 12px; margin-top: 3rem;">
+                    <div class="content-header" style="margin-bottom: 1.5rem;">
+                        <h3 style="display: flex; align-items: center; gap: 0.5rem;"><i class="ph ph-plus-circle"></i>
+                            Acompanhamentos de Açai</h3>
+                        <p style="font-size: 0.9rem; margin-top: 0.2rem;">Adicione opções que aparecem como botões de
+                            seleção.</p>
+                    </div>
+
+                    <form id="toppingForm" style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                        <input type="text" id="toppingName" class="form-control"
+                            style="flex: 1; padding: 0.8rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white;"
+                            placeholder="Ex: Leite em Pó, Granola, Nutella..." required>
+                        <button type="submit" class="btn btn-secondary" style="padding: 0 1.5rem;">Adicionar
+                            Opção</button>
+                    </form>
+
+                    <div id="toppingsContainer" style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                        <!-- Chips preenchidos via JS -->
+                    </div>
+                </div>
             </div>
 
             <script>
@@ -168,6 +191,59 @@
                             `;
                             listBody.appendChild(tr);
                         });
+                    };
+
+                    // --- LOGICA DOS ACOMPANHAMENTOS ---
+                    const toppingForm = document.getElementById('toppingForm');
+                    const toppingsContainer = document.getElementById('toppingsContainer');
+
+                    const loadToppings = () => {
+                        const toppings = JSON.parse(localStorage.getItem('siteToppings') || '[]');
+                        toppingsContainer.innerHTML = '';
+
+                        toppings.forEach((t, index) => {
+                            const btn = document.createElement('div');
+                            btn.className = 'topping-chip';
+                            btn.style.cssText = `
+                                background: rgba(255,107,0,0.1);
+                                border: 1px solid rgba(255,107,0,0.3);
+                                color: var(--hot-orange);
+                                padding: 0.5rem 1rem;
+                                border-radius: 50px;
+                                display: flex;
+                                align-items: center;
+                                gap: 0.5rem;
+                                cursor: default;
+                                font-size: 0.9rem;
+                                font-weight: 500;
+                            `;
+                            btn.innerHTML = `
+                                ${t}
+                                <i class="ph ph-x-circle" style="cursor: pointer; font-size: 1.1rem; opacity: 0.7;" onclick="deleteTopping(${index})"></i>
+                            `;
+                            toppingsContainer.appendChild(btn);
+                        });
+                    };
+
+                    toppingForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        const toppings = JSON.parse(localStorage.getItem('siteToppings') || '[]');
+                        const name = document.getElementById('toppingName').value;
+
+                        if (!toppings.includes(name)) {
+                            toppings.push(name);
+                            localStorage.setItem('siteToppings', JSON.stringify(toppings));
+                        }
+
+                        toppingForm.reset();
+                        loadToppings();
+                    });
+
+                    window.deleteTopping = (index) => {
+                        const toppings = JSON.parse(localStorage.getItem('siteToppings') || '[]');
+                        toppings.splice(index, 1);
+                        localStorage.setItem('siteToppings', JSON.stringify(toppings));
+                        loadToppings();
                     };
 
                     form.addEventListener('submit', (e) => {
@@ -196,6 +272,7 @@
                     };
 
                     loadProducts();
+                    loadToppings();
                 });
             </script>
         </main>

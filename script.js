@@ -152,46 +152,86 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- RENDERIZAR PRODUTOS DINÂMICOS ---
     const renderProducts = () => {
-        const productGrid = document.querySelector('.flavor-grid');
+        const productGrid = document.querySelector('.flavor-slider');
         if (!productGrid) return;
 
         const products = JSON.parse(localStorage.getItem('siteProducts') || '[]');
-        if (products.length === 0) return; // Se não houver produtos no admin, mantém os estáticos do HTML
+        if (products.length === 0) return;
 
-        productGrid.innerHTML = ''; // Limpa os estáticos
+        productGrid.innerHTML = '';
 
         products.forEach((p, index) => {
             const card = document.createElement('div');
             card.className = 'flavor-card';
-            card.style.opacity = 0;
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = `all 0.6s cubic-bezier(0.25, 1, 0.5, 1) ${index * 0.1}s`;
 
             card.innerHTML = `
-                <div class="flavor-image">
-                    <i class="ph ph-ice-cream" style="font-size: 5rem; color: rgba(255,255,255,0.1);"></i>
-                    <div class="flavor-overlay">
-                        <button class="btn btn-primary btn-sm">Adicionar</button>
-                    </div>
+                <div class="flavor-img-wrapper">
+                    <div class="glow-bg ${index % 3 === 0 ? 'hot' : (index % 3 === 1 ? 'cold' : 'mixed')}"></div>
+                    <i class="ph ph-ice-cream" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 6rem; opacity: 0.1; z-index: 2;"></i>
                 </div>
                 <div class="flavor-info">
-                    <div class="flavor-header">
-                        <h3 class="flavor-name">${p.name}</h3>
-                        <span class="flavor-price">R$ ${parseFloat(p.price).toFixed(2)}</span>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                        <h3 style="margin: 0; font-size: 1.5rem;">${p.name}</h3>
+                        <span style="font-weight: 800; color: var(--hot-primary); font-size: 1.1rem;">R$ ${parseFloat(p.price).toFixed(2)}</span>
                     </div>
-                    <p class="flavor-desc">${p.desc}</p>
-                    <div class="flavor-tags">
-                        <span class="tag">Artesanal</span>
-                        <span class="tag">Premium</span>
-                    </div>
+                    <p>${p.desc}</p>
                 </div>
             `;
 
             productGrid.appendChild(card);
-            observer.observe(card);
+        });
+    };
+
+    // --- RENDERIZAR ACOMPANHAMENTOS ---
+    const renderToppings = () => {
+        const toppingsSection = document.getElementById('toppings-section');
+        const container = document.getElementById('siteToppingsContainer');
+        if (!container || !toppingsSection) return;
+
+        const toppings = JSON.parse(localStorage.getItem('siteToppings') || '[]');
+        if (toppings.length === 0) {
+            toppingsSection.style.display = 'none';
+            return;
+        }
+
+        toppingsSection.style.display = 'block';
+        container.innerHTML = '';
+
+        toppings.forEach(t => {
+            const chip = document.createElement('span');
+            chip.style.cssText = `
+                background: var(--bg-lighter);
+                border: 1px solid var(--glass-border);
+                color: var(--text-main);
+                padding: 0.8rem 1.5rem;
+                border-radius: 50px;
+                font-weight: 700;
+                font-size: 1rem;
+                transition: var(--transition-smooth);
+                cursor: default;
+                display: inline-block;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            `;
+            chip.textContent = t;
+
+            // Hover effect
+            chip.onmouseover = () => {
+                chip.style.borderColor = 'var(--hot-primary)';
+                chip.style.transform = 'translateY(-5px)';
+                chip.style.boxShadow = '0 10px 25px var(--hot-glow)';
+                chip.style.background = 'white';
+            };
+            chip.onmouseout = () => {
+                chip.style.borderColor = 'var(--glass-border)';
+                chip.style.transform = 'translateY(0)';
+                chip.style.boxShadow = '0 4px 15px rgba(0,0,0,0.05)';
+                chip.style.background = 'var(--bg-lighter)';
+            };
+
+            container.appendChild(chip);
         });
     };
 
     renderProducts();
-
+    renderToppings();
 });
